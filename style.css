@@ -41,24 +41,6 @@
   padding-right: 0;
 }
 
-@media (min-width: 950px) {
-  .container,
-  .gamestat-container {
-    width: 60%;
-    padding-left: 20%;
-    padding-right: 20%;
-  }
-}
-
-@media (min-width: 1600px) {
-  .container,
-  .gamestat-container {
-    width: 40%;
-    padding-left: 30%;
-    padding-right: 30%;
-  }
-}
-
 .gamestat-container {
   justify-content: space-around;
   padding-top: 3rem;
@@ -103,14 +85,37 @@
   display: block;
 }
 
-@media (min-width: 950px) {
+@media (min-width: 768px) {
+  .main-container {
+    width: 90%;
+    margin: auto;
+  }
+
+  .container,
+  .gamestat-container {
+    width: 60%;
+    padding-left: 20%;
+    padding-right: 20%;
+  }
+
   .tile img {
-    width: 6rem;
+    width: 8rem;
   }
 }
 
-@media (min-width: 1600px) {
+@media (min-width: 1536px) {
+  .main-container {
+    width: 40%;
+    margin: auto;
+  }
+  .container,
+  .gamestat-container {
+    width: 40%;
+    padding-left: 30%;
+    padding-right: 30%;
+  }
+
   .tile img {
-    width: 12rem;
+    width: 8rem;
   }
 }
