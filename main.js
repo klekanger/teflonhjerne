@@ -95,6 +95,7 @@ function newGame() {
   gameState.gameOver = false;
 
   board.innerHTML = ''; // Clear board
+  triesDisplay.innerText = 0; // Reset tries to zero
 
   // Randomize all tiles. I'm using concat to make two copies of each tile (no need to duplicate tiles in the tiles array)
   randomizedTiles = tiles.concat(tiles).sort((a, b) => 0.5 - Math.random());
