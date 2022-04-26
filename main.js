@@ -60,13 +60,19 @@ function flipTile(e) {
   clickedTile.classList.add('flipped');
   const flippedTiles = document.querySelectorAll('.flipped');
 
+  if (flippedTiles.length > 2) {
+    flippedTiles.forEach((tile) => {
+      tile.classList.remove('flipped');
+    });
+  }
+
   if (flippedTiles.length === 2) {
-    // Remove flipped class before we forget this...
+    // Wait a little bit, then remove all flipped tiles
     setTimeout(() => {
       flippedTiles.forEach((tile) => {
         tile.classList.remove('flipped');
       });
-    }, 1000);
+    }, 500);
 
     const firstTile = flippedTiles[0].getAttribute('data-tile');
     const secondTile = flippedTiles[1].getAttribute('data-tile');
@@ -83,7 +89,7 @@ function flipTile(e) {
         flippedTiles.forEach((tile) => {
           tile.classList.remove('flipped');
         });
-      }, 1000);
+      }, 500);
     }
   }
   checkWin(); // Check if all tiles are matched
