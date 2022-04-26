@@ -66,7 +66,7 @@ function flipTile(e) {
       flippedTiles.forEach((tile) => {
         tile.classList.remove('flipped');
       });
-    }, 1500);
+    }, 1000);
 
     const firstTile = flippedTiles[0].getAttribute('data-tile');
     const secondTile = flippedTiles[1].getAttribute('data-tile');
@@ -83,7 +83,7 @@ function flipTile(e) {
         flippedTiles.forEach((tile) => {
           tile.classList.remove('flipped');
         });
-      }, 1500);
+      }, 1000);
     }
   }
   checkWin(); // Check if all tiles are matched
