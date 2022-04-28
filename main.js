@@ -50,7 +50,10 @@ function checkWin() {
   const matchedTiles = document.querySelectorAll('.matched');
   if (matchedTiles.length === 16) {
     gameState.gameOver = true;
-    alert('Du klarte det!');
+
+    setTimeout(() => {
+      alert('Du klarte det!');
+    }, 250); // Pause for a bit to ensure that the last flipped tile are shown before the alert
   }
 }
 
@@ -64,6 +67,7 @@ function flipTile(e) {
     flippedTiles.forEach((tile) => {
       tile.classList.remove('flipped');
     });
+    return;
   }
 
   if (flippedTiles.length === 2) {
@@ -80,7 +84,7 @@ function flipTile(e) {
     gameState.tries++;
     triesDisplay.innerText = gameState.tries;
 
-    if (firstTile === secondTile && firstTile !== null && secondTile !== null) {
+    if (firstTile === secondTile) {
       flippedTiles.forEach((tile) => {
         tile.classList.add('matched');
       });
