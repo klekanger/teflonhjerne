@@ -1,6 +1,6 @@
 # Teflonhjerne 
 
-Et enkelt "memory game" laget i vanilla Javascript.
+Et enkelt "memory game" laget i vanilla Javascript. Demo her: https://teflonhjerne.netlify.app/
 
 Jeg har ikke brukt noen rammeverk eller biblioteker, men valgte å bruke Vite til å opprette prosjektet. I sin nåværende enkle form trengs det ikke, men Vite har en del nyttige funksjoner som kan være kjekt å ha hvis jeg skulle finne på å gjøre noe mer avansert i fremtiden. 
 
