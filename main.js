@@ -1,3 +1,4 @@
+// import createBoard from './createBoard.js';
 import './style.css';
 
 const board = document.querySelector('#gamegrid'); // This is where we will lay out all the tiles
