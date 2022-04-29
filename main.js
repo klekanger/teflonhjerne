@@ -1,29 +1,9 @@
-// import createBoard from './createBoard.js';
+import { gameState } from './gameState';
 import './style.css';
+import { tiles } from './tiles';
 
 const board = document.querySelector('#gamegrid'); // This is where we will lay out all the tiles
 const triesDisplay = document.querySelector('#tries'); // DOM element for viewing current score/tries
-
-// Create a global object to store state
-// Could be useful for storing more stuff in one place if we later
-// wants to expand the game with more functionality
-const gameState = {
-  tries: 0,
-  gameOver: false,
-};
-
-// Store all possible tiles in an array of objects
-// Each object has an unique name and a href to an image
-const tiles = [
-  { name: 'stekepanne', src: './images/1.svg' },
-  { name: 'hodetelefoner', src: './images/2.svg' },
-  { name: 'gulrot', src: './images/3.svg' },
-  { name: 'pokal', src: './images/4.svg' },
-  { name: 'gitar', src: './images/5.svg' },
-  { name: 'snømann', src: './images/6.svg' },
-  { name: 'gris', src: './images/7.svg' },
-  { name: 'ugle', src: './images/8.svg' },
-];
 
 let randomizedTiles = [];
 
@@ -36,12 +16,13 @@ function createBoard() {
     singleTile.setAttribute('data-tile', tile.name);
 
     singleTile.innerHTML = `
-      <div class="tile" data-tile=${tile.name}>
-          <img src=${tile.src} alt=${tile.name} />
+      <div class="tile" data-tile=${tile.name} tabindex="0" aria-label="Spille-kort">
+          <img src=${tile.src} alt=${tile.name}/>
       </div>      
     `;
 
     singleTile.addEventListener('click', flipTile);
+    singleTile.addEventListener('keypress', flipTile);
     board.appendChild(singleTile);
   });
 }
