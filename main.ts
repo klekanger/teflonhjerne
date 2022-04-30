@@ -118,4 +118,5 @@ resetButton.onclick = () => {
 
 // This one resets game state, randomizes the tiles
 // and creates the board (with click event listeners on each tile)
+// ...and starts the game
 newGame();
