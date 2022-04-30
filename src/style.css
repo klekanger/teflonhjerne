@@ -169,7 +169,7 @@
 
 @media (min-width: 768px) {
   .main-container {
-    width: 90%;
+    width: 60%;
     margin: auto;
   }
 
@@ -201,7 +201,7 @@
 
 @media (min-width: 1536px) {
   .main-container {
-    width: 40%;
+    width: 30%;
     margin: auto;
   }
   .container,
