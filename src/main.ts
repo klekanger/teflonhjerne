@@ -1,7 +1,7 @@
-import { gameState } from './gameState';
+import { gameState } from './lib/gameState';
+import { tiles } from './lib/tiles';
 import modal from './modal';
 import './style.css';
-import { tiles } from './tiles';
 
 const board = <HTMLDivElement>document.querySelector('#gamegrid'); // This is where we will lay out all the tiles
 const triesDisplay = <HTMLDivElement>document.querySelector('#tries'); // DOM element for viewing current score/tries
