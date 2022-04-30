@@ -70,6 +70,13 @@ function flipTile(e) {
     return;
   }
 
+  if (
+    clickedTile.classList.contains('matched') ||
+    clickedTile.parentElement.classList.contains('matched')
+  ) {
+    return;
+  }
+
   if (flippedTiles.length === 2) {
     // Wait a little bit, then remove all flipped tiles
     setTimeout(() => {
