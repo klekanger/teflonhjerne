@@ -32,10 +32,10 @@ export default function modal({
     </div>
   </div>
   `;
-  document.body.appendChild(modal);
+
   const closeButton = <HTMLButtonElement>document.querySelector('.modal-close');
   closeButton.addEventListener('click', () => {
     modalBtnCB(); // Runs the optional callback function from props
-    modal.remove();
+    modal.innerHTML = '';
   });
 }
