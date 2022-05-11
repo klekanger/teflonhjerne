@@ -26,11 +26,11 @@ function createBoard() {
     const singleTile = document.createElement('div');
     singleTile.classList.add('tile');
     singleTile.setAttribute('data-tile', tile.name);
+    singleTile.setAttribute('tabindex', '0');
+    singleTile.setAttribute('aria-label', 'spille-kort');
 
     singleTile.innerHTML = `
-      <div class="tile" data-tile=${tile.name} tabindex="0" aria-label="Spille-kort">
           <img src=${tile.src} alt=${tile.name}/>
-      </div>      
     `;
 
     singleTile.addEventListener('click', flipTile);
