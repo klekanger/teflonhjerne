@@ -36,6 +36,16 @@ export default {
             sizes: '611x814',
             type: 'image/png',
           },
+          {
+            src: 'screenshot-iphone-1.png',
+            sizes: '1125x2436',
+            type: 'image/png',
+          },
+          {
+            src: 'screenshot-iphone-2.png',
+            sizes: '1125x2436',
+            type: 'image/png',
+          },
         ],
       },
     }),
