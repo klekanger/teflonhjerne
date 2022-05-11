@@ -35,9 +35,7 @@ function createBoard() {
     singleTile.setAttribute('data-tile', tile.name);
 
     singleTile.innerHTML = `
-      <div class="tile" data-tile=${tile.name}>
           <img src=${tile.src} alt=${tile.name} />
-      </div>      
     `;
 
     singleTile.addEventListener('click', flipTile);
