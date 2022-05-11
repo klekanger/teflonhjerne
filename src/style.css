@@ -150,6 +150,7 @@ a {
 }
 
 .modal-wrapper {
+  z-index: 50;
   position: fixed;
   left: 0;
   top: 0;
@@ -161,7 +162,6 @@ a {
 }
 
 .modal-content {
-  z-index: 50;
   margin: 0;
   border: 1px solid #bbb;
   background-color: #eee;
