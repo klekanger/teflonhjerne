@@ -1,6 +1,6 @@
 // Store all possible tiles in an array of objects
 // Each object has an unique name and a href to an image
-export const tiles = [
+export const TILES = [
   { name: 'stekepanne', src: './images/1.svg' },
   { name: 'hodetelefoner', src: './images/2.svg' },
   { name: 'gulrot', src: './images/3.svg' },

@@ -1,11 +1,5 @@
+import { ModalProps } from '../types';
 import './style.css';
-
-interface ModalProps {
-  title?: string;
-  body?: string;
-  buttonText?: string;
-  modalBtnCB?: () => void;
-}
 
 // Legger inn noen defaultverdier, bare i tilfelle
 export default function modal({

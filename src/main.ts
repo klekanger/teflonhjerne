@@ -1,5 +1,8 @@
 import { registerSW } from 'virtual:pwa-register';
+import { Tile } from '../types';
 import { gameState } from './lib/gameState';
+import { TILES } from './lib/tiles';
+import modal from './modal';
 import './style.css';
 
 // Register serviceworker using vitePWA plugin to make app installable
@@ -7,37 +10,16 @@ if ('serviceWorker' in navigator) {
   registerSW();
 }
 
+const board = <HTMLDivElement>document.querySelector('#gamegrid'); // This is where we will lay out all the tiles
+const triesDisplay = <HTMLDivElement>document.querySelector('#tries'); // DOM element for viewing current score/tries
+
 // Handle reset button click
-const resetButton = document.querySelector('#reset-button');
+const resetButton = <HTMLButtonElement>document.querySelector('#reset-button');
 resetButton.onclick = () => {
   newGame();
 };
 
-// Store all possible tiles in an array of objects
-// Each object has an unique name and a href to an image
-const TILES = [
-  { name: 'stekepanne', src: './images/1.svg' },
-  { name: 'hodetelefoner', src: './images/2.svg' },
-  { name: 'gulrot', src: './images/3.svg' },
-  { name: 'pokal', src: './images/4.svg' },
-  { name: 'gitar', src: './images/5.svg' },
-  { name: 'snømann', src: './images/6.svg' },
-  { name: 'gris', src: './images/7.svg' },
-  { name: 'ugle', src: './images/8.svg' },
-];
-
-// Create a global object to store state
-const gameState = {
-  tiles: [],
-  firstTileID: null,
-  firstTileDOMElement: null,
-  isBlocked: false,
-  tilesFlipped: 0,
-  tries: 0,
-  gameOver: false,
-};
-
-function shuffleTiles(tiles) {
+function shuffleTiles(tiles: Tile[]) {
   // We use concat to get two of each tile, then maps over them to create a new array of tile objects with the added property isMatched
   let tilesToShuffle = tiles.concat(tiles).map((tile) => {
     return { ...tile, isMatched: false };
@@ -60,9 +42,25 @@ function drawEmptyBoard() {
   }
 }
 
-function checkForMatch(firstTile, secondTile) {
+function checkForMatch(firstTile: number, secondTile: number): boolean {
   // Check if the two tiles match (return true or false)
   return gameState.tiles[firstTile].name === gameState.tiles[secondTile].name;
+}
+
+// Check if player has won (all tiles matched)
+function checkWin() {
+  if (gameState.tiles.every((tile) => tile.isMatched)) {
+    gameState.gameOver = true;
+
+    setTimeout(() => {
+      // Show modal. Pass in a callback function for resetting the game
+      modal({
+        title: 'Du klarte det!',
+        body: 'Vi er alle stolte av deg. Men prøv gjerne på nytt. Kanskje du kan klare det på færre forsøk?',
+        modalBtnCB: newGame,
+      });
+    }, 250); // Pause for a bit after last tile is clicked before showing modal
+  }
 }
 
 function flipTile(e) {
@@ -98,7 +96,7 @@ function flipTile(e) {
     gameState.firstTileDOMElement = clickedDOMElement;
   } else {
     gameState.tries++;
-    triesDisplay.innerText = gameState.tries;
+    triesDisplay.innerText = gameState.tries.toString();
   }
 
   // Increase tiles flipped counter if less than two tiles have been flipped
@@ -129,16 +127,6 @@ function flipTile(e) {
     gameState.firstTileID = null;
 
     checkWin();
-  }
-}
-
-// Check if player has won (all tiles matched)
-function checkWin() {
-  if (gameState.tiles.every((tile) => tile.isMatched)) {
-    gameState.gameOver = true;
-    setTimeout(() => {
-      alert(`Du klarte det på ${gameState.tries} forsøk!`);
-    }, 500);
   }
 }
 
