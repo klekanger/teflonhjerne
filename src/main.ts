@@ -56,7 +56,7 @@ function checkWin() {
       // Show modal. Pass in a callback function for resetting the game
       modal({
         title: 'Du klarte det!',
-        body: 'Vi er alle stolte av deg. Men prøv gjerne på nytt. Kanskje du kan klare det på færre forsøk?',
+        body: `Du brukte ${gameState.tries} forsøk. Vi er alle stolte av deg! Men prøv gjerne på nytt. Kanskje du kan klare det på færre forsøk?`,
         modalBtnCB: newGame,
       });
     }, 250); // Pause for a bit after last tile is clicked before showing modal
