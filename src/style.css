@@ -129,16 +129,6 @@ a {
 
 .tile img {
   width: 60%;
-  animation: showimage 0.2s;
-}
-
-@keyframes showimage {
-  0% {
-    transform: scale(0);
-  }
-  100% {
-    transform: scale(1);
-  }
 }
 
 .shake {
