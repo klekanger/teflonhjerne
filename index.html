@@ -22,14 +22,24 @@
     <link rel="icon" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/icon-512.png" />
     <link rel="mask-icon" href="/icon-maskable.png" color="#FFFFFF" />
-
     <script type="module" src="/src/main.ts"></script>
   </head>
   <body>
     <div id="modal"></div>
-
+    <audio id="audio-player"></audio>
     <section class="main-container">
-      <h1 class="title">TEFLONHJERNE <span aria-hidden="true">🤯</span></h1>
+      <div id="game-heading">
+        <h1 class="title">
+          TEFLONHJERNE&nbsp;<span aria-hidden="true">🤯</span>
+          <img
+            id="audio-toggle"
+            src="./icons/volume-up-fill.svg"
+            alt="Lyd er på"
+            style="width: 2rem; height: 2rem"
+            aria-label="Lyd er på"
+          />
+        </h1>
+      </div>
       <section class="gamestat-container">
         <button id="reset-button" class="btn-standard">Start nytt spill</button>
         <div class="score-display">Forsøk: <span id="tries">0</span></div>
