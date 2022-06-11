@@ -12,7 +12,10 @@ export interface GameState {
   isBlocked: boolean;
   tilesFlipped: number;
   tries: number;
-  gameOver: boolean;
+  gameStatus: 'idle' | 'playing' | 'won';
+  muted: boolean;
+  selectedTile: number;
+  modalIsOpen: boolean;
 }
 
 export interface ModalProps {
