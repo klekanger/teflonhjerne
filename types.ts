@@ -1,6 +1,7 @@
 export interface Tile {
   name: string;
   src: string;
+  image: HTMLImageElement | null;
   isMatched?: boolean;
 }
 
