@@ -3,6 +3,7 @@ import { Tile } from '../types';
 import { GAMESOUNDS } from './lib/gamesounds';
 import { gameState } from './lib/gameState';
 import { playSound } from './lib/playSound';
+import { shake } from './lib/shake';
 import { TILES } from './lib/tiles';
 import modal from './modal';
 import './style.css';
@@ -16,13 +17,14 @@ if ('serviceWorker' in navigator) {
 window.onload = () => {
   const board = <HTMLDivElement>document.querySelector('#gamegrid'); // This is where we will lay out all the tiles
   const triesDisplay = <HTMLDivElement>document.querySelector('#tries'); // DOM element for viewing current score/tries
-
   const audioToggle = <HTMLImageElement>document.querySelector('#audio-toggle');
   const resetButton = <HTMLButtonElement>(
     document.querySelector('#reset-button')
   );
 
+  // ************************************************************************
   // Add onClick listeners to buttons
+  // ************************************************************************
   function addButtonListeners() {
     resetButton.onclick = () => {
       newGame();
@@ -36,7 +38,9 @@ window.onload = () => {
     };
   }
 
-  // Listeners for cursor keys
+  // ************************************************************************
+  // Set up listeners for keyboard navigation
+  // ************************************************************************
   function addKeyListeners() {
     document.addEventListener('keydown', (e) => {
       if (gameState.modalIsOpen) {
@@ -56,6 +60,9 @@ window.onload = () => {
       const selectedTile = document.querySelector(
         `[data-tile="${gameState.selectedTile}"]`
       ) as HTMLElement;
+
+      console.log('selectedTile = ', selectedTile);
+
       if (selectedTile) {
         selectedTile.focus();
       }
@@ -66,10 +73,19 @@ window.onload = () => {
     });
   }
 
+  // ************************************************************************
+  // Shuffle tiles and preload images
+  // ************************************************************************
   function shuffleTiles(tiles: Tile[]) {
     if (tiles.length < 8) {
       throw new Error('Not enough tiles to shuffle');
     }
+
+    const preloadImage = (tile: Tile) => {
+      const image = new Image();
+      image.src = tile.src;
+      return image;
+    };
 
     // Make a set of 8 random tiles from the larger array of tiles. Set makes sure we don't get duplicates
     const randomSetOfTiles = new Set<Tile>();
@@ -78,22 +94,26 @@ window.onload = () => {
       randomSetOfTiles.add(tiles[randomIndex]);
     }
 
-    // Convert the set to an array
-    const randomTiles = Array.from(randomSetOfTiles);
+    // Convert the set to an array and duplicate the tiles
+    const tilesArray = Array.from(randomSetOfTiles);
+    const duplicatedTilesArray = [...tilesArray, ...tilesArray];
 
-    // We use concat to get two of each tile, then maps over them to create a new array of tile objects with the added property isMatched
-    let tilesToShuffle = randomTiles.concat(randomTiles).map((tile) => {
-      return { ...tile, isMatched: false };
+    // Shuffle the array
+    duplicatedTilesArray.sort(() => Math.random() - 0.5);
+
+    // Preload images for better performance
+    const tilesWithPreloadedImages = duplicatedTilesArray.map((tile) => {
+      const image = preloadImage(tile);
+      return { ...tile, image };
     });
 
-    // Then we shuffle the array
-    tilesToShuffle.sort(() => Math.random() - 0.5);
-
-    return tilesToShuffle;
+    return tilesWithPreloadedImages;
   }
 
+  // ************************************************************************
+  // Create a new empty board
+  // ************************************************************************
   function drawEmptyBoard() {
-    // Create a new empty board
     for (let i = 0; i < 16; i++) {
       const tile = document.createElement('div');
       tile.classList.add('tile');
@@ -104,12 +124,16 @@ window.onload = () => {
     }
   }
 
+  // ************************************************************************
+  // Check if the two tiles match
+  // ************************************************************************
   function checkForMatch(firstTile: number, secondTile: number): boolean {
-    // Check if the two tiles match (return true or false)
     return gameState.tiles[firstTile].name === gameState.tiles[secondTile].name;
   }
 
+  // ************************************************************************
   // Check if player has won (all tiles matched)
+  // ************************************************************************
   function checkWin() {
     if (gameState.tiles.every((tile) => tile.isMatched)) {
       gameState.gameStatus = 'won';
@@ -127,30 +151,37 @@ window.onload = () => {
     }
   }
 
-  function flipTile(e) {
-    const clickedDOMElement = e.currentTarget || e;
+  // ************************************************************************
+  // MAIN game logic in this function:
+  // 1) Flip a tile
+  // 2) If two tiles are flipped, check if they match
+  // 3) If they don't match, flip them back
+  // 4) If they match, mark them as matched and check if the player has won
+  // ************************************************************************
+  function flipTile(e: Event | HTMLElement) {
+    // Have to account for that the argument can be an mouse click event or a keyboard press
+    // to avoid any TypeScript errors
+    let clickedDOMElement: HTMLElement;
+    if (e instanceof Event) {
+      clickedDOMElement = <HTMLElement>e.currentTarget;
+    } else {
+      clickedDOMElement = e;
+    }
 
     const clickedTileID = Number(clickedDOMElement.getAttribute('data-tile'));
 
-    // Nice little shake effect when clicking an "illegal" tile
-    const shake = () => {
-      clickedDOMElement.classList.add('shake');
-      setTimeout(() => {
-        clickedDOMElement.classList.remove('shake');
-      }, 500);
-    };
-
+    // If the tile is already flipped, don't flip it again
     if (
       gameState.tiles[clickedTileID].isMatched ||
-      clickedDOMElement.childElementCount > 0 //
+      clickedDOMElement.childElementCount > 0
     ) {
-      shake();
+      shake(clickedDOMElement);
       return;
     }
 
     // Return early if clicked tiles have not flipped back yet
     if (gameState.isBlocked) {
-      shake();
+      shake(clickedDOMElement);
       return;
     }
 
@@ -172,9 +203,9 @@ window.onload = () => {
         volume: 0.3,
       });
 
-      clickedDOMElement.innerHTML = `
-      <img src=${gameState.tiles[clickedTileID].src} alt=${gameState.tiles[clickedTileID].name} />
-    `;
+      clickedDOMElement.appendChild(
+        <HTMLImageElement>gameState.tiles[clickedTileID].image
+      ); // Insert the image to the tile
     }
 
     if (gameState.tilesFlipped === 2) {
@@ -202,13 +233,16 @@ window.onload = () => {
     }
   }
 
+  // ************************************************************************
   // Reset the game state, randomize all tiles, create board
+  // ************************************************************************
   function newGame() {
     gameState.tries = 0;
     gameState.gameStatus = 'playing';
     gameState.modalIsOpen = false;
 
     // Update gamestate with a new randomized tile set
+
     gameState.tiles = shuffleTiles(TILES);
 
     // Clear the board and scores display in the DOM
@@ -218,11 +252,16 @@ window.onload = () => {
     drawEmptyBoard();
   }
 
+  // ************************************************************************
+  //
+  //                             START THE GAME
+  //
+  // ************************************************************************
   gameState.gameStatus = 'idle';
   addButtonListeners();
   addKeyListeners();
 
-  // Show modal with instructions on game start - then start the game
+  // Show modal with instructions on game start - then start a new game
   modal({
     title: 'Teflonhjerne',
     body: 'Prøv å matche to og to figurer. Hvor mange forsøk trenger du for å klare hele brettet?',

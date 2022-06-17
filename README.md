@@ -4,6 +4,10 @@ Et enkelt "memory game" laget i vanilla Javascript. Demo her: https://teflonhjer
 
 Jeg har ikke brukt noen rammeverk eller biblioteker, men valgte å bruke [Vite](https://vitejs.dev/) som "build tool".
 
+## Oppdatert 17.6.2022:
+- Skrevet om litt: Preloader nå alle ikoner/bilder for hvert spillekort for å unngå "lag" som av og til kan skje. 
+- Ørlite refaktorering og litt TypeScript-fiksing
+
 
 ## Oppdatert 11.6.2022:
 - Lagt til massevis av nye ikoner. Spilleren får 8 tilfeldige ikoner/spillekort
