@@ -61,8 +61,6 @@ window.onload = () => {
         `[data-tile="${gameState.selectedTile}"]`
       ) as HTMLElement;
 
-      console.log('selectedTile = ', selectedTile);
-
       if (selectedTile) {
         selectedTile.focus();
       }

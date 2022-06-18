@@ -3,8 +3,6 @@
 // ******************************************************************
 
 export function shake(clickedDOMElement: HTMLElement) {
-  console.log('Shake!', clickedDOMElement);
-
   clickedDOMElement.classList.add('shake');
   setTimeout(() => {
     clickedDOMElement.classList.remove('shake');
