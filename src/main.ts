@@ -1,13 +1,12 @@
 import { registerSW } from 'virtual:pwa-register';
 import { Tile } from '../types';
+import { animateTiles } from './lib/animate-tiles';
 import { GAMESOUNDS } from './lib/gamesounds';
 import { gameState } from './lib/gameState';
 import { playSound } from './lib/playSound';
 import { shake } from './lib/shake';
 import { TILES } from './lib/tiles';
 import modal from './modal';
-import { animateTiles } from './lib/animate-tiles';
-import gsap from 'gsap';
 import './style.css';
 
 // Register serviceworker using vitePWA plugin to make app installable
@@ -209,6 +208,8 @@ window.onload = () => {
       triesDisplay.innerText = gameState.tries.toString();
     }
 
+    const tileImage = <HTMLImageElement>gameState.tiles[clickedTileID].image;
+
     // Increase tiles flipped counter if less than two tiles have been flipped
     if (gameState.tilesFlipped < 2) {
       gameState.tilesFlipped++;
@@ -217,15 +218,7 @@ window.onload = () => {
         volume: 0.3,
       });
 
-      const tileImage = <HTMLImageElement>gameState.tiles[clickedTileID].image;
       clickedDOMElement.appendChild(tileImage);
-      gsap.from(tileImage, {
-        duration: 0.3,
-        opacity: 0,
-        scale: 2,
-        rotation: -360,
-        ease: 'back',
-      });
     }
 
     if (gameState.tilesFlipped === 2) {
