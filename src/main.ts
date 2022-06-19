@@ -6,6 +6,7 @@ import { playSound } from './lib/playSound';
 import { shake } from './lib/shake';
 import { TILES } from './lib/tiles';
 import modal from './modal';
+import { animateTiles } from './lib/animate-tiles';
 import './style.css';
 
 // Register serviceworker using vitePWA plugin to make app installable
@@ -173,12 +174,14 @@ window.onload = () => {
       gameState.tiles[clickedTileID].isMatched ||
       clickedDOMElement.childElementCount > 0
     ) {
+      playSound({ audiofile: GAMESOUNDS.uhOh, volume: 0.8 });
       shake(clickedDOMElement);
       return;
     }
 
     // Return early if clicked tiles have not flipped back yet
     if (gameState.isBlocked) {
+      playSound({ audiofile: GAMESOUNDS.uhOh, volume: 0.8 });
       shake(clickedDOMElement);
       return;
     }
@@ -247,7 +250,9 @@ window.onload = () => {
     board.innerHTML = ''; // Clear board
     triesDisplay.innerText = '0'; // Reset tries to zero
 
+    playSound({ audiofile: GAMESOUNDS.newGame, volume: 0.8 });
     drawEmptyBoard();
+    animateTiles();
   }
 
   // ************************************************************************
