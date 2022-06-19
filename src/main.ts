@@ -7,6 +7,7 @@ import { shake } from './lib/shake';
 import { TILES } from './lib/tiles';
 import modal from './modal';
 import { animateTiles } from './lib/animate-tiles';
+import gsap from 'gsap';
 import './style.css';
 
 // Register serviceworker using vitePWA plugin to make app installable
@@ -119,6 +120,18 @@ window.onload = () => {
       tile.setAttribute('data-tile', `${i}`);
       tile.setAttribute('tabindex', '0');
       tile.addEventListener('click', flipTile);
+
+      // Add classes used for animation of tiles when a new board is drawn
+      if (i < 4) {
+        tile.classList.add('odd');
+      } else if (i < 8) {
+        tile.classList.add('even');
+      } else if (i < 12) {
+        tile.classList.add('odd');
+      } else {
+        tile.classList.add('even');
+      }
+
       board.appendChild(tile);
     }
   }
@@ -204,9 +217,15 @@ window.onload = () => {
         volume: 0.3,
       });
 
-      clickedDOMElement.appendChild(
-        <HTMLImageElement>gameState.tiles[clickedTileID].image
-      ); // Insert the image to the tile
+      const tileImage = <HTMLImageElement>gameState.tiles[clickedTileID].image;
+      clickedDOMElement.appendChild(tileImage);
+      gsap.from(tileImage, {
+        duration: 0.3,
+        opacity: 0,
+        scale: 2,
+        rotation: -360,
+        ease: 'back',
+      });
     }
 
     if (gameState.tilesFlipped === 2) {

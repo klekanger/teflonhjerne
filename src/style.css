@@ -43,11 +43,7 @@
   font-family: var(--font-title);
   font-size: xx-large;
   user-select: none;
-  margin-bottom: -4px;
-}
-
-#audiotoggle:hover {
-  transform: scale(1.06);
+  padding-top: 10px;
 }
 
 .footer {
@@ -67,6 +63,16 @@ a {
   font-family: inherit;
 }
 
+#audio-toggle {
+  transform: scale(0.8);
+}
+
+.button-container {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  padding-right: 20px;
+}
 .btn-standard {
   margin: auto;
   background-color: var(--color-button-standard);
@@ -89,6 +95,24 @@ a {
   transition: 0.3s ease-in-out;
 }
 
+.btn-square {
+  background-color: var(--color-button-standard);
+  border-radius: var(--rounded-standard);
+  border-width: 0;
+  cursor: pointer;
+  font-size: 0.9em;
+  height: 44px;
+  width: 44px;
+  line-height: 1.15;
+  margin: 0;
+  color: #eee;
+  padding-left: 2px;
+  padding-top: 1px;
+  text-align: center;
+  box-shadow: var(--shadow-button);
+  user-select: none;
+}
+
 .gamegrid-container,
 .gamestat-container {
   display: flex;
@@ -99,9 +123,8 @@ a {
 }
 
 .gamestat-container {
-  justify-content: space-around;
-  padding-top: 40px;
-  padding-bottom: 20px;
+  justify-content: space-between;
+  padding: 40px 50px 20px 10px;
 }
 
 #gamegrid {
