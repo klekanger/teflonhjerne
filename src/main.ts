@@ -122,13 +122,13 @@ window.onload = () => {
 
       // Add classes used for animation of tiles when a new board is drawn
       if (i < 4) {
-        tile.classList.add('even');
+        tile.classList.add('odd');
       } else if (i < 8) {
-        tile.classList.add('odd');
-      } else if (i < 12) {
         tile.classList.add('even');
-      } else {
+      } else if (i < 12) {
         tile.classList.add('odd');
+      } else {
+        tile.classList.add('even');
       }
 
       board.appendChild(tile);
