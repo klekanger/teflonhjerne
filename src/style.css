@@ -30,15 +30,15 @@ body {
   overflow: hidden;
 }
 
-#game-heading {
-  width: 100%;
-  padding-top: 20px;
-  padding-left: 5%;
-  padding-right: 5%;
+.main-container {
+  height: 90vh;
+  overflow: hidden;
 }
 
-#teflonhjerne-logo {
+#game-heading {
   width: 100%;
+  padding-left: 5%;
+  padding-right: 5%;
 }
 
 .title {
@@ -136,7 +136,7 @@ a {
 
 .gamestat-container {
   justify-content: space-between;
-  padding: 40px 50px 20px 10px;
+  padding: 10px 50px 10px 10px;
 }
 
 #gamegrid {
@@ -309,6 +309,15 @@ a {
 }
 
 @media (min-width: 640px) {
+  #game-heading {
+    padding-top: 20px;
+  }
+
+  .gamestat-container {
+    justify-content: space-between;
+    padding: 40px 50px 20px 10px;
+  }
+
   .title {
     font-size: 5em;
   }
