@@ -11,7 +11,6 @@ export const gameState: GameState = {
   isBlocked: false,
   tilesFlipped: 0,
   tries: 0,
-  gameStatus: 'idle',
   muted: false,
   selectedTile: 0,
   modalIsOpen: false,

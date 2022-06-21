@@ -1,9 +1,15 @@
 import { registerSW } from 'virtual:pwa-register';
-import { Tile } from '../types';
+import { Tile, GameSound } from '../types';
 import { animateTiles } from './lib/animate-tiles';
-import { GAMESOUNDS } from './lib/gamesounds';
+import {
+  SOUND_FLIP,
+  SOUND_MATCH,
+  SOUND_NEWGAME,
+  SOUND_UHOH,
+  SOUND_WIN,
+} from './lib/gamesounds';
 import { gameState } from './lib/gameState';
-import { playSound } from './lib/playSound';
+import { stopAudio } from './lib/stopAudio';
 import { shake } from './lib/shake';
 import { TILES } from './lib/tiles';
 import modal from './modal';
@@ -16,6 +22,11 @@ if ('serviceWorker' in navigator) {
 
 // Wait until the page has loaded before running the rest of the code
 window.onload = () => {
+  const mainContainer = <HTMLDivElement>(
+    document.querySelector('.main-container')
+  );
+  mainContainer.removeAttribute('hidden'); // hide HTML until page is loaded
+
   const board = <HTMLDivElement>document.querySelector('#gamegrid'); // This is where we will lay out all the tiles
   const triesDisplay = <HTMLDivElement>document.querySelector('#tries'); // DOM element for viewing current score/tries
   const audioToggle = <HTMLImageElement>document.querySelector('#audio-toggle');
@@ -70,6 +81,20 @@ window.onload = () => {
         flipTile(selectedTile);
       }
     });
+  }
+
+  // ************************************************************************
+  // Preload all audio files
+  // ************************************************************************
+  function preloadSoundEffects(soundEffects: GameSound[]) {
+    const preloadedSoundEffects = soundEffects.map((sound) => {
+      const audio = new Audio();
+      audio.src = sound.src;
+      audio.volume = 0.8;
+      sound.audio = audio;
+      return sound;
+    });
+    return preloadedSoundEffects;
   }
 
   // ************************************************************************
@@ -147,8 +172,7 @@ window.onload = () => {
   // ************************************************************************
   function checkWin() {
     if (gameState.tiles.every((tile) => tile.isMatched)) {
-      gameState.gameStatus = 'won';
-      playSound({ audiofile: GAMESOUNDS.win, volume: 0.8 });
+      SOUND_WIN.play();
 
       setTimeout(() => {
         // Show modal. Pass in a callback function for resetting the game
@@ -186,14 +210,14 @@ window.onload = () => {
       gameState.tiles[clickedTileID].isMatched ||
       clickedDOMElement.childElementCount > 0
     ) {
-      playSound({ audiofile: GAMESOUNDS.uhOh, volume: 0.8 });
+      SOUND_UHOH.play();
       shake(clickedDOMElement);
       return;
     }
 
     // Return early if clicked tiles have not flipped back yet
     if (gameState.isBlocked) {
-      playSound({ audiofile: GAMESOUNDS.uhOh, volume: 0.8 });
+      SOUND_UHOH.play();
       shake(clickedDOMElement);
       return;
     }
@@ -213,10 +237,8 @@ window.onload = () => {
     // Increase tiles flipped counter if less than two tiles have been flipped
     if (gameState.tilesFlipped < 2) {
       gameState.tilesFlipped++;
-      playSound({
-        audiofile: GAMESOUNDS.flip,
-        volume: 0.3,
-      });
+      stopAudio(SOUND_FLIP); // Necessary to get the audio playing a second time if two tiles are clicked quickly after one another
+      SOUND_FLIP.play();
 
       clickedDOMElement.appendChild(tileImage);
     }
@@ -225,7 +247,8 @@ window.onload = () => {
       if (checkForMatch(gameState.firstTileID, clickedTileID) === true) {
         gameState.tiles[gameState.firstTileID].isMatched = true;
         gameState.tiles[clickedTileID].isMatched = true;
-        playSound({ audiofile: GAMESOUNDS.match, volume: 0.8 });
+
+        SOUND_MATCH.play();
       } else {
         gameState.isBlocked = true;
 
@@ -251,7 +274,6 @@ window.onload = () => {
   // ************************************************************************
   function newGame() {
     gameState.tries = 0;
-    gameState.gameStatus = 'playing';
     gameState.modalIsOpen = false;
 
     // Update gamestate with a new randomized tile set
@@ -262,7 +284,7 @@ window.onload = () => {
     board.innerHTML = ''; // Clear board
     triesDisplay.innerText = '0'; // Reset tries to zero
 
-    playSound({ audiofile: GAMESOUNDS.newGame, volume: 0.8 });
+    SOUND_NEWGAME.play();
     drawEmptyBoard();
     animateTiles();
   }
@@ -272,7 +294,7 @@ window.onload = () => {
   //                             START THE GAME
   //
   // ************************************************************************
-  gameState.gameStatus = 'idle';
+
   addButtonListeners();
   addKeyListeners();
 
