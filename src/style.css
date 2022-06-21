@@ -26,12 +26,21 @@
   --color-tile-hover: #eee;
 }
 
+body {
+  overflow: hidden;
+}
+
 #game-heading {
   width: 100%;
-  padding-top: 50px;
+  padding-top: 20px;
   padding-left: 5%;
   padding-right: 5%;
 }
+
+#teflonhjerne-logo {
+  width: 100%;
+}
+
 .title {
   font-family: var(--font-title);
   color: var(--color-title-standard);
@@ -278,6 +287,25 @@ a {
   line-height: 1.5;
   padding: 0.5rem;
   font-size: 1em;
+}
+
+#head {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: wiggle 6s infinite;
+}
+
+@keyframes pulse {
+  20%,
+  100% {
+    transform: translate(0, -8px);
+  }
+  0% {
+    transform: translate(0, 0px);
+  }
+  10% {
+    transform: translate(0, -8px);
+  }
 }
 
 @media (min-width: 640px) {
