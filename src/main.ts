@@ -20,10 +20,6 @@ if ('serviceWorker' in navigator) {
   registerSW();
 }
 
-// Magic hack that should remove some audio playback delay in Safari on iOS devices
-const AudioContext = window.AudioContext || window.webkitAudioContext;
-const audioCtx = new AudioContext(); // Not really used, but should keep the audio system alive so that short sounds don't get cut off in Safari
-
 // Wait until the page has loaded before running the rest of the code
 window.onload = () => {
   const mainContainer = <HTMLDivElement>(
@@ -51,6 +47,11 @@ window.onload = () => {
       audioToggle.src = gameState.muted
         ? './icons/volume-mute-fill.svg'
         : './icons/volume-up-fill.svg';
+      SOUND_FLIP.muted = gameState.muted;
+      SOUND_MATCH.muted = gameState.muted;
+      SOUND_NEWGAME.muted = gameState.muted;
+      SOUND_UHOH.muted = gameState.muted;
+      SOUND_WIN.muted = gameState.muted;
     };
   }
 
@@ -288,6 +289,7 @@ window.onload = () => {
     board.innerHTML = ''; // Clear board
     triesDisplay.innerText = '0'; // Reset tries to zero
 
+    stopAudio(SOUND_NEWGAME); // Necessary to get the audio playing a second time if clicking reset button twice quickly after one another
     SOUND_NEWGAME.play();
     drawEmptyBoard();
     animateTiles();
