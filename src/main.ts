@@ -20,10 +20,6 @@ if ('serviceWorker' in navigator) {
   registerSW();
 }
 
-// Magic hack that should remove some audio playback delay in Safari on iOS devices
-const AudioContext = window.AudioContext || window.webkitAudioContext;
-const audioCtx = new AudioContext(); // Not really used, but should keep the audio system alive so that short sounds don't get cut off in Safari
-
 // Wait until the page has loaded before running the rest of the code
 window.onload = () => {
   const mainContainer = <HTMLDivElement>(
@@ -277,6 +273,10 @@ window.onload = () => {
   // Reset the game state, randomize all tiles, create board
   // ************************************************************************
   function newGame() {
+    // Magic hack that should remove some audio playback delay in Safari on iOS devices
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    const audioCtx = new AudioContext(); // Not really used, but should keep the audio system alive so that short sounds don't get cut off in Safari
+
     gameState.tries = 0;
     gameState.modalIsOpen = false;
 
