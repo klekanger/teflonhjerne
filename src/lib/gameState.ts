@@ -11,7 +11,7 @@ export const gameState: GameState = {
   isBlocked: false,
   tilesFlipped: 0,
   tries: 0,
-  muted: false,
+  isMuted: false,
   selectedTile: 0,
   modalIsOpen: false,
 };

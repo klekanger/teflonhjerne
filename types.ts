@@ -25,7 +25,7 @@ export interface GameState {
   isBlocked: boolean;
   tilesFlipped: number;
   tries: number;
-  muted: boolean;
+  isMuted: boolean;
   selectedTile: number;
   modalIsOpen: boolean;
 }

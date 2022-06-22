@@ -18,16 +18,16 @@
   --rounded-large: 12px;
   --rounded-standard: 6px;
   --rounded-small: 4px;
-  --color-button-standard: #ae357e;
-  --color-button-standard-hover: #902c68;
-  --color-title-standard: #868686;
+  --color-button-standard: #555cef;
+  --color-button-standard-hover: #4c53d3;
+  --color-button-text: #fff;
   --color-title-dark: #5e5e5e;
   --color-tile-background: #ddd;
   --color-tile-hover: #eee;
 }
 
 body {
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .main-container {
@@ -130,16 +130,6 @@ body {
   }
 }
 
-.title {
-  font-family: var(--font-title);
-  color: var(--color-title-standard);
-  letter-spacing: 0.025em;
-  text-align: center;
-  font-size: 3em;
-  padding-top: 2rem;
-  user-select: none;
-}
-
 .score-display {
   font-family: var(--font-title);
   font-size: x-large;
@@ -168,8 +158,14 @@ a {
   transform: scale(0.8);
 }
 
+#audio-toggle:hover {
+  transform: scale(0.9);
+  transition-duration: 0.2s;
+}
+
 .btn-standard {
-  margin: auto;
+  color: var(--color-button-text);
+  box-shadow: var(--shadow-button);
   background-color: var(--color-button-standard);
   border-radius: var(--rounded-standard);
   border-width: 0;
@@ -178,29 +174,22 @@ a {
   height: 34px;
   line-height: 1.15;
   margin: 12px 0 0;
-  color: #eee;
   padding: 0 25px;
   text-align: center;
-  box-shadow: var(--shadow-button);
   user-select: none;
 }
 
 .btn-square {
   background-color: var(--color-button-standard);
   border-radius: var(--rounded-standard);
+  box-shadow: var(--shadow-button);
   border-width: 0;
   cursor: pointer;
-  font-size: 0.9em;
   height: 34px;
   width: 34px;
-  line-height: 1.15;
   margin: 0;
-  color: #eee;
   padding-left: 2px;
   padding-top: 1px;
-  text-align: center;
-  box-shadow: var(--shadow-button);
-  user-select: none;
 }
 
 .btn-standard:hover,
@@ -225,11 +214,8 @@ a {
 }
 
 #gamestat-container {
-  display: flex;
   flex-direction: column;
-  width: 100%;
   align-items: center;
-  gap: 4px;
 }
 
 #gamegrid {
@@ -328,7 +314,7 @@ a {
   flex-direction: column;
   text-align: center;
   padding: 2rem;
-  width: 70%;
+  width: 90%;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
