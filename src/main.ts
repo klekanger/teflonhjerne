@@ -43,63 +43,17 @@ window.onload = () => {
     };
 
     audioToggle.onclick = () => {
-      gameState.muted = !gameState.muted;
-      audioToggle.src = gameState.muted
+      gameState.isMuted = !gameState.isMuted;
+      audioToggle.src = gameState.isMuted
         ? './icons/volume-mute-fill.svg'
         : './icons/volume-up-fill.svg';
-      SOUND_FLIP.muted = gameState.muted;
-      SOUND_MATCH.muted = gameState.muted;
-      SOUND_NEWGAME.muted = gameState.muted;
-      SOUND_UHOH.muted = gameState.muted;
-      SOUND_WIN.muted = gameState.muted;
+      SOUND_FLIP.muted = gameState.isMuted;
+      SOUND_MATCH.muted = gameState.isMuted;
+      SOUND_NEWGAME.muted = gameState.isMuted;
+      SOUND_UHOH.muted = gameState.isMuted;
+      SOUND_WIN.muted = gameState.isMuted;
+      audioToggle.ariaLabel = `Lyd er ${gameState.isMuted ? ' av' : ' på'}`;
     };
-  }
-
-  // ************************************************************************
-  // Set up listeners for keyboard navigation
-  // ************************************************************************
-  function addKeyListeners() {
-    document.addEventListener('keydown', (e) => {
-      if (gameState.modalIsOpen) {
-        return; // Prevents cursor keys from working while modal is open
-      }
-
-      if (e.key === 'ArrowRight') {
-        gameState.selectedTile < 15 ? gameState.selectedTile++ : null;
-      } else if (e.key === 'ArrowLeft') {
-        gameState.selectedTile > 0 ? gameState.selectedTile-- : null;
-      } else if (e.key === 'ArrowUp') {
-        gameState.selectedTile > 3 ? (gameState.selectedTile -= 4) : null;
-      } else if (e.key === 'ArrowDown') {
-        gameState.selectedTile < 12 ? (gameState.selectedTile += 4) : null;
-      }
-
-      const selectedTile = document.querySelector(
-        `[data-tile="${gameState.selectedTile}"]`
-      ) as HTMLElement;
-
-      if (selectedTile) {
-        selectedTile.focus();
-      }
-
-      if (e.key === ' ' || e.key === 'Enter') {
-        flipTile(selectedTile);
-      }
-    });
-  }
-
-  // ************************************************************************
-  // Preload all audio files
-  // ************************************************************************
-  function preloadSoundEffects(soundEffects: GameSound[]) {
-    const preloadedSoundEffects = soundEffects.map((sound) => {
-      const audio = new Audio();
-      audio.src = sound.src;
-      audio.volume = 0.8;
-      sound.audio = audio;
-      return sound;
-    });
-    return preloadedSoundEffects;
   }
 
   // ************************************************************************
@@ -113,6 +67,7 @@ window.onload = () => {
     const preloadImage = (tile: Tile) => {
       const image = new Image();
       image.src = tile.src;
+      image.alt = tile.name;
       return image;
     };
 
@@ -124,8 +79,7 @@ window.onload = () => {
     }
 
     // Convert the set to an array and duplicate the tiles
-    const tilesArray = Array.from(randomSetOfTiles);
-    const duplicatedTilesArray = [...tilesArray, ...tilesArray];
+    const duplicatedTilesArray = [...randomSetOfTiles, ...randomSetOfTiles];
 
     // Shuffle the array
     duplicatedTilesArray.sort(() => Math.random() - 0.5);
@@ -146,6 +100,7 @@ window.onload = () => {
     for (let i = 0; i < 16; i++) {
       const tile = document.createElement('div');
       tile.classList.add('tile');
+      tile.ariaLabel = 'Brikke';
       tile.setAttribute('data-tile', `${i}`);
       tile.setAttribute('tabindex', '0');
       tile.addEventListener('click', flipTile);
@@ -198,9 +153,7 @@ window.onload = () => {
   // 3) If they don't match, flip them back
   // 4) If they match, mark them as matched and check if the player has won
   // ************************************************************************
-  function flipTile(e: Event | HTMLElement) {
-    // Have to account for that the argument can be an mouse click event or a keyboard press
-    // to avoid any TypeScript errors
+  function flipTile(e: Event) {
     let clickedDOMElement: HTMLElement;
     if (e instanceof Event) {
       clickedDOMElement = <HTMLElement>e.currentTarget;
@@ -302,11 +255,10 @@ window.onload = () => {
   // ************************************************************************
 
   addButtonListeners();
-  addKeyListeners();
 
   // Show modal with instructions on game start - then start a new game
   modal({
-    title: 'Teflonhjerne',
+    title: 'Teflon&shy;hjerne',
     body: 'Prøv å matche to og to figurer. Hvor mange forsøk trenger du for å klare hele brettet?',
     buttonText: 'Start spillet',
     modalBtnCB: newGame,
