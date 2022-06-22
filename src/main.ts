@@ -47,6 +47,11 @@ window.onload = () => {
       audioToggle.src = gameState.muted
         ? './icons/volume-mute-fill.svg'
         : './icons/volume-up-fill.svg';
+      SOUND_FLIP.muted = gameState.muted;
+      SOUND_MATCH.muted = gameState.muted;
+      SOUND_NEWGAME.muted = gameState.muted;
+      SOUND_UHOH.muted = gameState.muted;
+      SOUND_WIN.muted = gameState.muted;
     };
   }
 
@@ -273,10 +278,6 @@ window.onload = () => {
   // Reset the game state, randomize all tiles, create board
   // ************************************************************************
   function newGame() {
-    // Magic hack that should remove some audio playback delay in Safari on iOS devices
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    const audioCtx = new AudioContext(); // Not really used, but should keep the audio system alive so that short sounds don't get cut off in Safari
-
     gameState.tries = 0;
     gameState.modalIsOpen = false;
 
@@ -288,6 +289,7 @@ window.onload = () => {
     board.innerHTML = ''; // Clear board
     triesDisplay.innerText = '0'; // Reset tries to zero
 
+    stopAudio(SOUND_NEWGAME); // Necessary to get the audio playing a second time if clicking reset button twice quickly after one another
     SOUND_NEWGAME.play();
     drawEmptyBoard();
     animateTiles();
