@@ -31,7 +31,7 @@ body {
 }
 
 .main-container {
-  padding: 10px;
+  margin: 10px;
 }
 
 #game-heading {
@@ -406,6 +406,8 @@ a {
 
 @media (display-mode: standalone) {
   .main-container {
+    margin-left: 10px;
+    margin-right: 10px;
     min-height: calc(100% + env(safe-area-inset-top));
     padding: env(safe-area-inset-top) env(safe-area-inset-right)
       env(safe-area-inset-bottom) env(safe-area-inset-left) !important;
