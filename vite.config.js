@@ -7,6 +7,7 @@ export default {
         short_name: 'Teflonhjerne',
         start_url: '/',
         scope: '/',
+        includeAssets: ['audio/*.*', 'icons/*.*', 'images/*.*'],
         background_color: '#ffffff',
         theme_color: '#f6b445',
         display: 'standalone',
@@ -33,17 +34,12 @@ export default {
         screenshots: [
           {
             src: 'screenshot.webp',
-            sizes: '611x814',
+            sizes: '1080x1620',
             type: 'image/png',
           },
           {
             src: 'screenshot-iphone-1.png',
-            sizes: '1125x2436',
-            type: 'image/png',
-          },
-          {
-            src: 'screenshot-iphone-2.png',
-            sizes: '1125x2436',
+            sizes: '1080x1620',
             type: 'image/png',
           },
         ],
