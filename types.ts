@@ -15,7 +15,6 @@ export interface GameState {
   tiles: Tile[];
   firstTileID: number | null;
   firstTileDOMElement: HTMLElement | null;
-  isMatched: boolean;
   isBlocked: boolean;
   tilesFlipped: number;
   tries: number;

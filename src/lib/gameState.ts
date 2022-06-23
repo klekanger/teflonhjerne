@@ -7,11 +7,9 @@ export const gameState: GameState = {
   tiles: [],
   firstTileID: null,
   firstTileDOMElement: null,
-  isMatched: false,
   isBlocked: false,
   tilesFlipped: 0,
   tries: 0,
   isMuted: false,
-  selectedTile: 0,
   modalIsOpen: false,
 };
