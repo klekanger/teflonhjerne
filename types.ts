@@ -19,7 +19,6 @@ export interface GameState {
   tilesFlipped: number;
   tries: number;
   isMuted: boolean;
-  selectedTile: number;
   modalIsOpen: boolean;
 }
 
