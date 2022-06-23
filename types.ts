@@ -11,22 +11,14 @@ export interface Tile {
   isMatched?: boolean;
 }
 
-export interface GameSound {
-  name: string;
-  src: string;
-  audio: HTMLAudioElement | null;
-}
-
 export interface GameState {
   tiles: Tile[];
   firstTileID: number | null;
   firstTileDOMElement: HTMLElement | null;
-  isMatched: boolean;
   isBlocked: boolean;
   tilesFlipped: number;
   tries: number;
   isMuted: boolean;
-  selectedTile: number;
   modalIsOpen: boolean;
 }
 

@@ -1,5 +1,5 @@
 import { registerSW } from 'virtual:pwa-register';
-import { Tile, GameSound } from '../types';
+import { Tile } from '../types';
 import { animateTiles } from './lib/animate-tiles';
 import {
   SOUND_FLIP,
@@ -9,8 +9,8 @@ import {
   SOUND_WIN,
 } from './lib/gamesounds';
 import { gameState } from './lib/gameState';
-import { stopAudio } from './lib/stopAudio';
 import { shake } from './lib/shake';
+import { stopAudio } from './lib/stopAudio';
 import { TILES } from './lib/tiles';
 import modal from './modal';
 import './style.css';
@@ -19,6 +19,12 @@ import './style.css';
 if ('serviceWorker' in navigator) {
   registerSW();
 }
+
+SOUND_FLIP.volume = 0.1;
+SOUND_MATCH.volume = 0.3;
+SOUND_NEWGAME.volume = 0.8;
+SOUND_UHOH.volume = 0.1;
+SOUND_WIN.volume = 0.8;
 
 // Wait until the page has loaded before running the rest of the code
 window.onload = () => {
