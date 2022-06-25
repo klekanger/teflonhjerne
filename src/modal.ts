@@ -7,12 +7,19 @@ export default function modal({
   title = 'Ingen tittel',
   body = '',
   buttonText = 'Lukk',
-  modalBtnCB = () => {},
+  modalBtnCB = () => {
+    return;
+  },
 }: ModalProps) {
-  const modal = <HTMLDivElement>document.querySelector('#modal');
+  const modal = document.querySelector('#modal');
+  if (!modal) {
+    throw new Error('Modal element missing from DOM');
+  }
+
   gameState.modalIsOpen = true;
 
-  modal.innerHTML = `
+  if (modal instanceof HTMLElement) {
+    modal.innerHTML = `
   <div class="modal-wrapper">
     <div class="modal-content" aria-labelledby="modal-title" aria-modal="true" role="dialog">
       <div class="modal-header">
@@ -28,11 +35,16 @@ export default function modal({
     </div>
   </div>
   `;
+  }
 
-  const closeButton = <HTMLButtonElement>document.querySelector('.modal-close');
-  closeButton.focus();
-  closeButton.addEventListener('click', () => {
-    modalBtnCB(); // Runs the optional callback function from props
-    modal.innerHTML = '';
-  });
+  const closeButton = document.querySelector('.modal-close');
+
+  if (closeButton instanceof HTMLElement) {
+    closeButton.focus();
+    closeButton.addEventListener('click', () => {
+      modalBtnCB(); // Runs the optional callback function from props
+
+      modal.innerHTML = '';
+    });
+  }
 }
