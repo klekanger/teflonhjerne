@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore: avoid getting cannot find module error
 import { registerSW } from 'virtual:pwa-register';
 import { Tile } from '../types';
 import { animateTiles } from './lib/animate-tiles';
@@ -28,38 +30,39 @@ SOUND_WIN.volume = 0.8;
 
 // Wait until the page has loaded before running the rest of the code
 window.onload = () => {
-  const mainContainer = <HTMLDivElement>(
-    document.querySelector('.main-container')
-  );
-  mainContainer.removeAttribute('hidden'); // hide HTML until page is loaded
+  const mainContainer = document.querySelector('.main-container');
+  mainContainer?.removeAttribute('hidden'); // hide HTML until page is loaded
 
-  const board = <HTMLDivElement>document.querySelector('#gamegrid'); // This is where we will lay out all the tiles
-  const triesDisplay = <HTMLDivElement>document.querySelector('#tries'); // DOM element for viewing current score/tries
-  const audioToggle = <HTMLImageElement>document.querySelector('#audio-toggle');
-  const resetButton = <HTMLButtonElement>(
-    document.querySelector('#reset-button')
-  );
+  const board = document.querySelector('#gamegrid'); // This is where we will lay out all the tiles
+  const triesDisplay = document.querySelector('#tries'); // DOM element for viewing current score/tries
+  const audioToggle: HTMLImageElement | null =
+    document.querySelector('#audio-toggle');
+  const resetButton = document.querySelector('#reset-button');
 
   // ************************************************************************
   // Add onClick listeners to buttons
   // ************************************************************************
   function addButtonListeners() {
-    resetButton.onclick = () => {
-      newGame();
-    };
+    if (resetButton instanceof HTMLElement) {
+      resetButton.onclick = () => {
+        newGame();
+      };
+    }
 
-    audioToggle.onclick = () => {
-      gameState.isMuted = !gameState.isMuted;
-      audioToggle.src = gameState.isMuted
-        ? './icons/volume-mute-fill.svg'
-        : './icons/volume-up-fill.svg';
-      SOUND_FLIP.muted = gameState.isMuted;
-      SOUND_MATCH.muted = gameState.isMuted;
-      SOUND_NEWGAME.muted = gameState.isMuted;
-      SOUND_UHOH.muted = gameState.isMuted;
-      SOUND_WIN.muted = gameState.isMuted;
-      audioToggle.ariaLabel = `Lyd er ${gameState.isMuted ? ' av' : ' på'}`;
-    };
+    if (audioToggle instanceof HTMLElement) {
+      audioToggle.onclick = () => {
+        gameState.isMuted = !gameState.isMuted;
+        audioToggle.src = gameState.isMuted
+          ? './icons/volume-mute-fill.svg'
+          : './icons/volume-up-fill.svg';
+        SOUND_FLIP.muted = gameState.isMuted;
+        SOUND_MATCH.muted = gameState.isMuted;
+        SOUND_NEWGAME.muted = gameState.isMuted;
+        SOUND_UHOH.muted = gameState.isMuted;
+        SOUND_WIN.muted = gameState.isMuted;
+        audioToggle.ariaLabel = `Lyd er ${gameState.isMuted ? ' av' : ' på'}`;
+      };
+    }
   }
 
   // ************************************************************************
@@ -91,7 +94,7 @@ window.onload = () => {
     duplicatedTilesArray.sort(() => Math.random() - 0.5);
 
     // Preload images for better performance
-    const tilesWithPreloadedImages = duplicatedTilesArray.map((tile) => {
+    const tilesWithPreloadedImages = duplicatedTilesArray.map((tile: Tile) => {
       const image = preloadImage(tile);
       return { ...tile, image };
     });
@@ -122,7 +125,9 @@ window.onload = () => {
         tile.classList.add('even');
       }
 
-      board.appendChild(tile);
+      if (board instanceof HTMLElement) {
+        board.appendChild(tile);
+      }
     }
   }
 
@@ -138,7 +143,7 @@ window.onload = () => {
   // ************************************************************************
   function checkWin() {
     if (gameState.tiles.every((tile) => tile.isMatched)) {
-      SOUND_WIN.play();
+      void SOUND_WIN.play();
 
       setTimeout(() => {
         // Show modal. Pass in a callback function for resetting the game
@@ -174,14 +179,14 @@ window.onload = () => {
       gameState.tiles[clickedTileID].isMatched ||
       clickedDOMElement.childElementCount > 0
     ) {
-      SOUND_UHOH.play();
+      void SOUND_UHOH.play();
       shake(clickedDOMElement);
       return;
     }
 
     // Return early if clicked tiles have not flipped back yet
     if (gameState.isBlocked) {
-      SOUND_UHOH.play();
+      void SOUND_UHOH.play();
       shake(clickedDOMElement);
       return;
     }
@@ -193,18 +198,22 @@ window.onload = () => {
       gameState.firstTileDOMElement = clickedDOMElement;
     } else {
       gameState.tries++;
-      triesDisplay.innerText = gameState.tries.toString();
+      if (triesDisplay instanceof HTMLElement) {
+        triesDisplay.innerText = gameState.tries.toString();
+      }
     }
 
-    const tileImage = <HTMLImageElement>gameState.tiles[clickedTileID].image;
+    const tileImage = gameState.tiles[clickedTileID].image;
 
     // Increase tiles flipped counter if less than two tiles have been flipped
     if (gameState.tilesFlipped < 2) {
       gameState.tilesFlipped++;
       stopAudio(SOUND_FLIP); // Necessary to get the audio playing a second time if two tiles are clicked quickly after one another
-      SOUND_FLIP.play();
+      void SOUND_FLIP.play();
 
-      clickedDOMElement.appendChild(tileImage);
+      if (tileImage instanceof HTMLImageElement) {
+        clickedDOMElement.appendChild(tileImage);
+      }
     }
 
     if (gameState.tilesFlipped === 2) {
@@ -212,7 +221,7 @@ window.onload = () => {
         gameState.tiles[gameState.firstTileID].isMatched = true;
         gameState.tiles[clickedTileID].isMatched = true;
 
-        SOUND_MATCH.play();
+        void SOUND_MATCH.play();
       } else {
         gameState.isBlocked = true;
 
@@ -245,11 +254,15 @@ window.onload = () => {
     gameState.tiles = shuffleTiles(TILES);
 
     // Clear the board and scores display in the DOM
-    board.innerHTML = ''; // Clear board
-    triesDisplay.innerText = '0'; // Reset tries to zero
+    if (board instanceof HTMLElement) {
+      board.innerHTML = ''; // Clear board
+    }
+    if (triesDisplay instanceof HTMLElement) {
+      triesDisplay.innerText = '0'; // Reset tries to zero
+    }
 
     stopAudio(SOUND_NEWGAME); // Necessary to get the audio playing a second time if clicking reset button twice quickly after one another
-    SOUND_NEWGAME.play();
+    void SOUND_NEWGAME.play();
     drawEmptyBoard();
     animateTiles();
   }

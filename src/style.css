@@ -1,7 +1,7 @@
 * {
   margin: 0;
   padding: 0;
-  font-family: 'Bangers', cursive;
+  font-family: Bangers, cursive;
   font-family: 'Open Sans', sans-serif;
   box-sizing: border-box;
 }
@@ -11,10 +11,10 @@
 */
 :root {
   --font-title: 'Bangers', cursive;
-  --shadow-default: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -2px rgba(0, 0, 0, 0.1);
-  --shadow-button: rgba(50, 50, 93, 0.1) 0 0 0 1px inset,
-    rgba(50, 50, 93, 0.1) 0 2px 5px 0, rgba(0, 0, 0, 0.07) 0 1px 1px 0;
+  --shadow-default: 0 4px 6px -1px rgb(0 0 0 / 10%),
+    0 2px 4px -2px rgb(0 0 0 / 10%);
+  --shadow-button: rgb(50 50 93/ 10%) 0 0 0 1px inset,
+    rgb(50 50 93/ 10%) 0 2px 5px 0, rgb(0 0 0/ 7%) 0 1px 1px 0;
   --rounded-large: 12px;
   --rounded-standard: 6px;
   --rounded-small: 4px;
@@ -41,60 +41,71 @@ body {
   padding-right: 10px;
 }
 
-#T {
+#t {
   animation: floating 4s ease-in-out infinite;
   animation-delay: 0s;
 }
-#E_3 {
+
+#e-3 {
   animation: floating 4s ease-in-out infinite;
   animation-delay: 0.4s;
 }
-#F {
+
+#f {
   animation: floating 4s ease-in-out infinite;
   animation-delay: 0.8s;
 }
-#L {
+
+#l {
   animation: floating 4s ease-in-out infinite;
   animation-delay: 1.2s;
 }
+
 #head {
-  animation-delay: 1.6s;
   transform-box: fill-box;
   transform-origin: center;
   animation: wiggle 6s infinite;
+  animation-delay: 1.6s;
 }
-#N_2 {
+
+#n-2 {
   animation: floating 4s ease-in-out infinite;
   animation-delay: 2s;
 }
-#H {
+
+#h {
   animation: floating 4s ease-in-out infinite;
   animation-delay: 2.4s;
 }
-#J {
+
+#j {
   animation: floating 4s ease-in-out infinite;
   animation-delay: 2.8s;
 }
-#E_2 {
+
+#e-2 {
   animation: floating 4s ease-in-out infinite;
   animation-delay: 3.2s;
 }
-#R {
+
+#r {
   animation: floating 4s ease-in-out infinite;
   animation-delay: 3.6s;
 }
-#N {
+
+#n {
   animation: floating 4s ease-in-out infinite;
   animation-delay: 4s;
 }
-#E {
+
+#e {
   animation: floating 4s ease-in-out infinite;
   animation-delay: 4.2s;
 }
 
 @keyframes floating {
   0% {
-    transform: translateY(0px);
+    transform: translateY(0);
   }
 
   50% {
@@ -109,19 +120,25 @@ body {
 @keyframes wiggle {
   0%,
   7% {
+    transform: rotateZ(0);
   }
+
   15% {
     transform: rotateZ(-15deg);
   }
+
   20% {
     transform: rotateZ(10deg);
   }
+
   25% {
     transform: rotateZ(-10deg);
   }
+
   30% {
     transform: rotateZ(6deg);
   }
+
   35% {
     transform: rotateZ(-4deg);
   }
@@ -261,33 +278,43 @@ a {
   0% {
     transform: translate(1px, 1px) rotate(0deg);
   }
+
   10% {
     transform: translate(-1px, -2px) rotate(-1deg);
   }
+
   20% {
-    transform: translate(-3px, 0px) rotate(1deg);
+    transform: translate(-3px, 0) rotate(1deg);
   }
+
   30% {
     transform: translate(3px, 2px) rotate(0deg);
   }
+
   40% {
     transform: translate(1px, -1px) rotate(1deg);
   }
+
   50% {
     transform: translate(-1px, 2px) rotate(-1deg);
   }
+
   60% {
     transform: translate(-3px, 1px) rotate(0deg);
   }
+
   70% {
     transform: translate(3px, 1px) rotate(-1deg);
   }
+
   80% {
     transform: translate(-1px, -1px) rotate(1deg);
   }
+
   90% {
     transform: translate(1px, 2px) rotate(0deg);
   }
+
   100% {
     transform: translate(1px, -2px) rotate(-1deg);
   }
@@ -300,8 +327,10 @@ a {
   top: 0;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgb(0 0 0 /80%);
+
   --webkit-backdrop-filter: blur(8px);
+
   backdrop-filter: blur(8px);
 }
 
@@ -372,6 +401,7 @@ a {
     width: 60%;
     margin: auto;
   }
+
   .title {
     font-size: 5em;
   }
@@ -391,6 +421,7 @@ a {
   .title {
     font-size: 5em;
   }
+
   .main-container {
     width: 30%;
     margin: auto;
