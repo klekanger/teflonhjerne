@@ -141,20 +141,8 @@ window.onload = () => {
   // ************************************************************************
   // Check if player has won (all tiles matched)
   // ************************************************************************
-  function checkWin() {
-    if (gameState.tiles.every((tile) => tile.isMatched)) {
-      void SOUND_WIN.play();
-
-      setTimeout(() => {
-        // Show modal. Pass in a callback function for resetting the game
-        modal({
-          title: 'Du klarte det!',
-          body: `Du brukte ${gameState.tries} forsøk. Vi er alle stolte av deg! Men prøv gjerne på nytt. Kanskje du kan klare det på færre forsøk?`,
-          buttonText: 'Prøv igjen',
-          modalBtnCB: newGame,
-        });
-      }, 250); // Pause for a bit after last tile is clicked before showing modal
-    }
+  function hasWon(): boolean {
+    return gameState.tiles.every((tile) => tile.isMatched);
   }
 
   // ************************************************************************
@@ -238,7 +226,18 @@ window.onload = () => {
       gameState.tilesFlipped = 0;
       gameState.firstTileID = null;
 
-      checkWin();
+      if (hasWon()) {
+        void SOUND_WIN.play();
+        setTimeout(() => {
+          // Show modal. Pass in a callback function for resetting the game
+          modal({
+            title: 'Du klarte det!',
+            body: `Du brukte ${gameState.tries} forsøk. Vi er alle stolte av deg! Men prøv gjerne på nytt. Kanskje du kan klare det på færre forsøk?`,
+            buttonText: 'Prøv igjen',
+            modalBtnCB: newGame,
+          });
+        }, 250); // Pause for a bit after last tile is clicked before showing modal
+      }
     }
   }
 
